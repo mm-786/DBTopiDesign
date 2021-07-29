@@ -131,7 +131,7 @@
 								            </tr>
 								      </table>
 										</div>
-										<input v-if="cat!==''" @click="uploadDesign" type="submit" value="Submit" />
+										<input v-if="cat!==''" @click="uploadDesign" :disabled='btn_enable' type="submit" value="Submit" />
 										<div id="snackbar">Thanks! Your Design is Awesome...</div>
 
 								
@@ -147,6 +147,7 @@
 													col:0,
 													name:'',
 													vis:true,
+													btn_enable:true,
 													des_name:'',
 													dArr:[],
 													cat:'',
@@ -227,7 +228,7 @@
 															this.dArr[r][c]=0;
 															
 														}
-														
+														this.btn_enable=false;
 														this.$forceUpdate()
 													},
 													 
