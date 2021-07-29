@@ -12,6 +12,52 @@
 		<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-analytics.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+		<style>
+			#snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  left: 50%; /* Center the snackbar */
+  bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+		</style>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
@@ -42,6 +88,10 @@
 										<h2>Add Your Design</h2>
 									</header>
 									<div id="ayd">
+										<div style="margin-left: 95%;">
+										<a @click="vis=!vis" style="font-size: 20px; text-decoration: none; font-weight: 900; text-align: end;">{{vis?'▲':'▼'}}</a>
+										</div>
+										<div v-if="vis">
 										<div class="col-12">
 											<label>Category<b style="color: red;">*</b></label>
 											<select name="demo-category" id="demo-category" v-model="cat" @change="" required>
@@ -70,6 +120,7 @@
 											<label>Column<b style="color: red;">*</b></label>
 											<input type="text" name="column" v-model="col" placeholder="Column" @change="a()" required/>
 										</div>
+									</div>
 									<br/>
 										<div style="margin:10px;">
 											<table align="center" border=1>
@@ -81,8 +132,11 @@
 								      </table>
 										</div>
 										<input v-if="cat!==''" @click="uploadDesign" type="submit" value="Submit" />
+										<div id="snackbar">Thanks! Your Design is Awesome...</div>
+
 								
 									</div>
+									
 									
 									<script>
 									
@@ -92,6 +146,7 @@
 													row:0,
 													col:0,
 													name:'',
+													vis:true,
 													des_name:'',
 													dArr:[],
 													cat:'',
@@ -127,7 +182,7 @@
 														if(err===''){
 														const unixTime = Math.floor(Date.now() / 1000);
 														var id = (this.cat+'#'+this.row+'x'+this.col+'#'+unixTime).toUpperCase()
-														alert(id);
+													
 														var ds = {};
 														for (var i = 0; i < this.row; i++) {
 															ds[i+1]=this.dArr[i];
@@ -141,7 +196,20 @@
 															cat:this.cat,
 															})
 													.then((docRef) => {
-														alert("Thanks! Your Design is Awesome...");
+														var x = document.getElementById("snackbar");
+
+														// Add the "show" class to DIV
+														x.className = "show";
+
+														// After 3 seconds, remove the show class from DIV
+														setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+														this.row=0;
+														this.col=0;
+														this.name='';
+														this.vis=true;
+														this.des_name='';
+														this.dArr=[];
+														this.cat='';
 													})
 													.catch((error) => {
 														alert("Something went wrong!");
@@ -179,7 +247,7 @@
 														}
 													}
 													this.dArr = arr;
-													screen.lockOrientation('landscape');
+													this.vis=false;
 												}
 										
 												},
