@@ -39,50 +39,38 @@
 							<!-- Section -->
 								<section>
 									<header class="major">
-										<h2>Add Your Design</h2>
+										<h2>Attractive Design</h2>
 									</header>
-									<div id="ayd">
-										<div class="col-12">
-											<label>Category<b style="color: red;">*</b></label>
-											<select name="demo-category" id="demo-category" v-model="cat" @change="" required>
-												<option value=''>- Category -</option>
-												<option value="kp" >Kasab Patto</option>
-												<option value="k">Kasab</option>
-											</select>
-										</div>
-										<br/>
-										<div v-if="cat!==''" class="col-6 col-12-xsmall">
-											<label>Name</label>
-											<input type="text" name="name" v-model="name" placeholder="Anonymous" />
-										</div>
-										<br/>
-										<div v-if="cat!==''" class="col-6 col-12-xsmall">
-											<label>Design Name</label>
-											<input type="text" name="des_name" v-model="des_name" placeholder="Ohbat" />
-										</div>
-										<br/>
-										<div v-if="cat!==''" class="col-6 col-12-xsmall">
-											<label>Row<b style="color: red;">*</b></label>
-											<input type="text" name="row" v-model="row" placeholder="Row" @change="a()" required/>
-											<br/>
-										</div>
-										<div v-if="cat!==''" class="col-6 col-12-xsmall">
-											<label>Column<b style="color: red;">*</b></label>
-											<input type="text" name="column" v-model="col" placeholder="Column" @change="a()" required/>
-										</div>
-									<br/>
-										<div style="margin:10px;">
-											<table align="center" border=1>
-								          <tr v-for='r in parseInt(row)'>
-								              <td @click="mark(r-1,c-1)" color=#DAA520 v-for='c in parseInt(col)' style="align-items: center; position: static; width:30px; height:30px ; text-align: center;">
-												<img :src="dArr[r-1][c-1]? './images/dot.png':'./images/blank.png'" width="30px" height="30px"/>
-								              </td>
-								            </tr>
-								      </table>
-										</div>
-										<input v-if="cat!==''" @click="uploadDesign" type="submit" value="Submit" />
 								
+									<div>
+										<div style="border: 1pt; background-color: rgba(237, 244, 211, 0.68); width: auto; display: inline-block;">
+										<table>
+											<tr>
+												<td>ds</td>
+												<td>dds</td>
+											</tr>
+											<tr>
+												<td>ds</td>
+												<td>dds</td>
+											</tr>
+										</table>
 									</div>
+
+									<div style="border: 1pt; background-color: rgba(237, 244, 211, 0.68); width: auto; display: inline-block;">
+										<table>
+											<tr>
+												<td>ds</td>
+												<td>dds</td>
+											</tr>
+											<tr>
+												<td>ds</td>
+												<td>dds</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+								
+							
 									
 									<script>
 									
@@ -179,7 +167,6 @@
 														}
 													}
 													this.dArr = arr;
-													screen.lockOrientation('landscape');
 												}
 										
 												},
