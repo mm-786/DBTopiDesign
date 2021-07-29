@@ -81,6 +81,7 @@
 								      </table>
 										</div>
 										<input v-if="cat!==''" @click="uploadDesign" type="submit" value="Submit" />
+								
 									</div>
 									
 									<script>
@@ -93,7 +94,6 @@
 													name:'',
 													des_name:'',
 													dArr:[],
-													temp:[],
 													cat:'',
 													db:null,
 													
@@ -123,21 +123,21 @@
 														{
 															err=err+"Invalid Row or Column value\t"
 														}
-														if(this.temp===this.dArr)
-														{
-															err=err+"Design is not created"
-														}
-
+														
 														if(err===''){
 														const unixTime = Math.floor(Date.now() / 1000);
 														var id = (this.cat+'#'+this.row+'x'+this.col+'#'+unixTime).toUpperCase()
 														alert(id);
-														this.db.collection("users").doc(id).set({
+														var ds = {};
+														for (var i = 0; i < this.row; i++) {
+															ds[i+1]=this.dArr[i];
+														}
+														this.db.collection("design").doc(id).set({
 															row:this.col,
 															col:this.col,
 															name:this.name,
 															des_name:this.des_name,
-															design:this.dArr,
+															design:ds,
 															cat:this.cat,
 															})
 													.then((docRef) => {
@@ -159,16 +159,18 @@
 															this.dArr[r][c]=0;
 															
 														}
+														
 														this.$forceUpdate()
 													},
+													 
 													a(){
 													const m = this.row;
 													const  n = this.col;
 													var arr = [];
 												if(m!==0 && n!==0){
 													for (var i = 0; i < m; i++) {
-														var temp = []
-														arr.push(temp)
+														var t = []
+														arr.push(t)
 													}
 													for (var i = 0; i < m; i++) {
 														for (var j = 0; j < n; j++) {
@@ -177,7 +179,6 @@
 														}
 													}
 													this.dArr = arr;
-													this.temp= arr;
 												}
 										
 												},
