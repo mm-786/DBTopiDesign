@@ -42,32 +42,20 @@
 										<h2>Attractive Design</h2>
 									</header>
 								
-									<div>
-										<div style="border: 1pt; background-color: rgba(237, 244, 211, 0.68); width: auto; display: inline-block;">
-										<table>
-											<tr>
-												<td>ds</td>
-												<td>dds</td>
+									<div id="d">
+										
+										<div v-for="des in design" style="border: 1pt; border-radius: 10px; margin:1.5%; padding: 2%; background-color:  rgba(218, 165, 32, 0.30); width: auto; display: inline-block;">
+											<table border="1px">
+											<tr v-for="row in des">
+												<td v-for="col in row">
+													<img :src="col? './images/dot.png':'./images/blank.png'" width="15px" height="15px"/>
+												</td>
 											</tr>
-											<tr>
-												<td>ds</td>
-												<td>dds</td>
-											</tr>
+											
 										</table>
 									</div>
 
-									<div style="border: 1pt; background-color: rgba(237, 244, 211, 0.68); width: auto; display: inline-block;">
-										<table>
-											<tr>
-												<td>ds</td>
-												<td>dds</td>
-											</tr>
-											<tr>
-												<td>ds</td>
-												<td>dds</td>
-											</tr>
-										</table>
-									</div>
+									
 								</div>
 								
 							
@@ -75,16 +63,10 @@
 									<script>
 									
 									new Vue({
-											el: '#ayd',
+											el: '#d',
 												data: {
-													row:0,
-													col:0,
-													name:'',
-													des_name:'',
-													dArr:[],
-													cat:'',
+													design:[],
 													db:null,
-													
 												},
 												mounted(){
 													var firebaseConfig = {
@@ -99,78 +81,21 @@
 													firebase.initializeApp(firebaseConfig);
   													firebase.analytics();
 													this.db = firebase.firestore();
-												},
-												methods:{
-													uploadDesign(){
-														var err = '';
-														if(this.cat==='')
-														{
-															err=err+"Select Category \t";
-														}
-														if(this.row<=0 && this.col<=0)
-														{
-															err=err+"Invalid Row or Column value\t"
-														}
-														
-														if(err===''){
-														const unixTime = Math.floor(Date.now() / 1000);
-														var id = (this.cat+'#'+this.row+'x'+this.col+'#'+unixTime).toUpperCase()
-														alert(id);
-														var ds = {};
-														for (var i = 0; i < this.row; i++) {
-															ds[i+1]=this.dArr[i];
-														}
-														this.db.collection("design").doc(id).set({
-															row:this.col,
-															col:this.col,
-															name:this.name,
-															des_name:this.des_name,
-															design:ds,
-															cat:this.cat,
-															})
-													.then((docRef) => {
-														alert("Thanks! Your Design is Awesome...");
-													})
-													.catch((error) => {
-														alert("Something went wrong!");
-													});
-													}
-													else{
-														alert(err)
-													}
-												},
-													mark(r,c){
-														if(this.dArr[r][c]===0){
-															this.dArr[r][c]=1;
-														}
-														else{
-															this.dArr[r][c]=0;
-															
-														}
-														
-														this.$forceUpdate()
-													},
-													 
-													a(){
-													const m = this.row;
-													const  n = this.col;
-													var arr = [];
-												if(m!==0 && n!==0){
-													for (var i = 0; i < m; i++) {
-														var t = []
-														arr.push(t)
-													}
-													for (var i = 0; i < m; i++) {
-														for (var j = 0; j < n; j++) {
-														
-															arr[i][j]=0;
-														}
-													}
-													this.dArr = arr;
+													this.db.collection("design").get().then((querySnapshot) => {
+    														querySnapshot.forEach((doc) => {
+																var r = doc.data().row;
+        														var t = doc.data().design;
+																var arr = [];
+
+															for (var i = 0; i < r; i++) {
+																arr.push(t[i+1])																
+															}	
+																this.design.push(arr);
+    															});
+															});
+															console.log(this.design);
+															this.$forceUpdate()
 												}
-										
-												},
-											}
 											})
 									</script>
 								</section>
