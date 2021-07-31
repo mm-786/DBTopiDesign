@@ -148,6 +148,7 @@
 													name:'',
 													vis:true,
 													btn_enable:true,
+													dot_cnt:0,
 													des_name:'',
 													dArr:[],
 													cat:'',
@@ -223,12 +224,21 @@
 													mark(r,c){
 														if(this.dArr[r][c]===0){
 															this.dArr[r][c]=1;
+															this.dot_cnt+=1;
 														}
 														else{
 															this.dArr[r][c]=0;
+															this.dot_cnt-=1;
 															
 														}
-														this.btn_enable=false;
+														if (this.dot_cnt>0)
+														{
+															this.btn_enable=false;
+														}
+														else{
+															this.btn_enable=true;
+														}
+														
 														this.$forceUpdate()
 													},
 													 
