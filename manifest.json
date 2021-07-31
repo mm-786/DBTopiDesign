@@ -1,0 +1,9 @@
+{
+    "name": "Dawoodi Bohra Topi's Design",
+    "short_name": "DB Topi's Design",
+    "theme_color": "#daa520",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/"
+  }
